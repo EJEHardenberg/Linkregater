@@ -10,8 +10,29 @@ body{
 	background-color: #000000;
 	font-size: 13pt;
 	font-family: Consolas, monaco, monospace;
-
+	color: #000000;
 }
+
+#idiots{
+	z-index: 10;
+	background-color: #000000;
+	color: #FF0000;
+	
+	text-align: center;
+	text-decoration: bolder;
+	font-size: 110%;
+
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	margin: 0px;
+	padding: 0px;
+}
+
 #mainContent{
 	background-color: #39E639;
 	border-radius: 1em;
