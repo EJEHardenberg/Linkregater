@@ -47,8 +47,10 @@ body{
 	font-size: 50%;
 	text-align: center;
 
+	clear: both;
 	position: absolute;
 	bottom: 0;
+	margin-top: 3em;
 	margin-right: 33%;
 	margin-left: 33%;
 	margin-bottom: 1em;
