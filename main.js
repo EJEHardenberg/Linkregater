@@ -39,10 +39,21 @@ var visitedLinks = {}
 function node(){
 	this.title = "";
 	this.anchors = [];
+	this.parent = null;
+}
+
+
+function fireEvent(name, target) {
+    //Ready: create a generic event
+    var evt = document.createEvent("Events")
+    //Aim: initialize it to be the event we want
+    evt.initEvent(name, true, true); //true for can bubble, true for cancelable
+    //Fire the event
+    target.dispatchEvent(evt);
 }
 
 //Processing function for each URL. Parses the page and grabs out the title and tags.
-function processGET(xmlHttp,depth,baseURL){
+function processGET(xmlHttp,depth,baseURL,parentNode){
 	if ( xmlHttp.readyState == 4 && xmlHttp.status == 200 ){
         var pageAsText = xmlHttp.responseText;
         
@@ -57,6 +68,8 @@ function processGET(xmlHttp,depth,baseURL){
         	result.title = tmp[1];
         else
         	return;//Don't care if theres no title, I dont want this page then
+
+        result.parent = parentNode;
         
         //Loop through the text and find all
         var intermediate;
@@ -79,24 +92,26 @@ function processGET(xmlHttp,depth,baseURL){
     	//For each of these anchors we've found, we want to grab their links too, if the depth is permissiable
     	if(depth > 0){
     		for (var i = result.anchors.length - 1; i >= 0; i--) {
-    			httpGet(encodeURIComponent(result.anchors[i]),depth-1);
+    			httpGet(encodeURIComponent(result.anchors[i]),depth-1,result);
     		};
     	}
 		
 		//Add this result to the global nodes list
 		nodes.push(result);
 
+		//Fire event to update graph
+		fireEvent('updateGraph',document);
+
 		console.log(nodes);
 
-		//Set some flag to update the graph
     }
 }
 
 //Helper function to grab URL
-function httpGet(theUrl,depth){
+function httpGet(theUrl,depth,parentNode){
     var xmlHttp = null;
     xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function(){processGET(xmlHttp,depth,decodeURIComponent(theUrl))};
+    xmlHttp.onreadystatechange = function(){processGET(xmlHttp,depth,decodeURIComponent(theUrl),parentNode)};
     xmlHttp.open( "GET", 'proxy.php?url='+theUrl, true );
     xmlHttp.send( null );
 }
@@ -106,15 +121,27 @@ function aggregate(){
 	//Grab the text of the input:
 	var rootUrl = document.getElementById('urlEnter').value;
 
+	//Check for http:// (most people will likely place www.)
+	if(!rootUrl.match(/http:\/\//i)){
+		rootUrl = "http://" + rootUrl;
+	}
+
 	/*General Algorithm:
 	 * Retrieve URL, find all anchor tags
 	 * Draw links to each from root
 	 * Update
 	 */
-	 httpGet(encodeURIComponent(rootUrl),3);
-	
+	 httpGet(encodeURIComponent(rootUrl),3,null);	
 }
 
-//Bind the event
+function drawGraph(){
+	console.log("draw graph");	
+}
+
+//Bind the event for choosing a url
 var goButton = document.getElementById('Go');
 goButton.onclick = aggregate;
+
+//Bind the event for updating the graph
+window.addEventListener("updateGraph", drawGraph, false); //false to get it in bubble not capture. (https://developer.mozilla.org/en-US/docs/DOM/EventTarget.addEventListener)
+
