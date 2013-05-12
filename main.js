@@ -16,8 +16,15 @@ if (canvas && canvas.getContext) {
   var cHeight = canvas.height;
 
   if (context) {
+  	//Draw Background of Canvas
   	context.fillStyle = '#67E667';
     context.fillRect(0, 0, cWidth, cHeight);
+
+    //Switch back to black for writing text
+    context.fillStyle = '000';
+    context.font = 'bold 100% sans-serif ';
+    context.fillText('Use the text box and button to the left to begin!',cWidth/3,cHeight/2);
+
 
   }
 }

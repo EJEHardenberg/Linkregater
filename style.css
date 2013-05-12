@@ -93,7 +93,7 @@ body{
 	width: 75%;
 	border-radius: 1em;
 	box-shadow: 0.0em 0.5em 0.3em #000000;
-		
+			
 	float: right;
 	margin-top: 1em;
 	margin-right: 1em;
@@ -107,6 +107,4 @@ canvas{
 	border-radius: 1em;
 	border: dashed black;
 
-	width: 90%;
-	height: 70%;
 }
