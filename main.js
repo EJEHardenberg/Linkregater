@@ -38,21 +38,29 @@ function node(){
 }
 
 //Processing function for each URL. Parses the page and grabs out the title and tags
-function processGET(){
+function processGET(xmlHttp){
 	if ( xmlHttp.readyState == 4 && xmlHttp.status == 200 ){
         var pageAsText = xmlHttp.responseText;
         
-        var anchorMatch = /<a.*href="(.*)".*<\/a>/i;
+        var anchorMatch = /<a.*href="([^"]*).*<\/a>/ig;
         var titleMatch = /<title>(.*)<\/title>/i;
 
-        console.log("hey");
-
+        
         //Grab the title
         var result = new node();
-        result.title = titleMatch.exec(pageAsText);
+        result.title = titleMatch.exec(pageAsText)[1]; //exec returns 0=>whole match 1=>what I want in ()
 
-        console.log(result);
+        
         //Loop through the text and find all
+        var intermediate;
+        do{
+			intermediate = anchorMatch.exec(pageAsText);	
+			if(intermediate)
+				result.anchors.push(intermediate[1]);
+    	}while(intermediate != null);    	
+		
+
+		console.log(result);
 
     }
 }
@@ -61,7 +69,7 @@ function processGET(){
 function httpGet(theUrl){
     var xmlHttp = null;
     xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = processGET;
+    xmlHttp.onreadystatechange = function(){processGET(xmlHttp)};
     xmlHttp.open( "GET", theUrl, true );
     xmlHttp.send( null );
     return xmlHttp.responseText;
