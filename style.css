@@ -1,0 +1,89 @@
+/*Color Scheme:
+ 	Darkest: 	#008500
+ 	Darker: 	#269926			
+ 	Middle: 	#00CC00
+ 	Lighter:  	#39E639
+ 	Lightest: 	#67E667
+*/
+
+body{
+	background-color: #000000;
+	font-size: 13pt;
+	font-family: Consolas, monaco, monospace;
+
+}
+#mainContent{
+	background-color: #39E639;
+	border-radius: 1em;
+	box-shadow: 0em 0.2em 0.3em #00CC00;  
+
+
+	min-height: 100%;
+	height: 500px;
+	width: 100%;
+}
+#footer{
+	font-size: 50%;
+	text-align: center;
+
+	position: absolute;
+	bottom: 0;
+	margin-right: 33%;
+	margin-left: 33%;
+	margin-bottom: 1em;
+
+	background-color: #39E639;
+	border-radius: 1em;
+	box-shadow: 0em 0.2em 0.3em #00CC00;
+	padding-right: 2em;
+	padding-left: 2em;
+	padding-top: 1em;
+}
+
+#topBar{
+	text-align: center;
+	font-size: 90%;
+	border: thin solid black;
+	border-radius: 1em;
+	box-shadow: 0.0em 0.5em 0.3em #000000;
+}
+
+#information{
+	margin-top: 1em;
+	margin-left: 1em;
+	width: 20%;
+	float: left;
+
+	background-color: #00CC00;
+	border: thin solid black;
+	border-radius: 1em;
+	box-shadow: 0.0em 0.5em 0.3em #000000;
+
+	font-size: 90%;
+}
+#information p{
+	font-size: 80%;
+}
+
+#drawingDiv{
+	background-color: #008500;
+	width: 75%;
+	border-radius: 1em;
+	box-shadow: 0.0em 0.5em 0.3em #000000;
+		
+	float: right;
+	margin-top: 1em;
+	margin-right: 1em;
+
+	text-align: center;
+}
+canvas{
+	margin 1em;
+	padding: 1em;
+
+	border-radius: 1em;
+	border: dashed black;
+
+	width: 90%;
+	height: 70%;
+}
