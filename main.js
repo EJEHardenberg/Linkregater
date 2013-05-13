@@ -121,7 +121,7 @@ function httpGet(theUrl,depth,parentNode){
     var xmlHttp = null;
     xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function(){processGET(xmlHttp,depth,decodeURIComponent(theUrl),parentNode)};
-    xmlHttp.open( "GET", 'proxy.php?url='+theUrl, true );
+    xmlHttp.open( "GET", 'proxy.php?url='+theUrl, false );
     xmlHttp.send( null );
 }
 
@@ -175,7 +175,7 @@ function determineNodeLocations(){
 	//Determine where each node should go 
 	locations = {};
 	currentDepth = 0;
-	for (var i = nodes.length - 1; i >= 0; i--) {
+	for (var i =0; i < nodes.length - 1;  i++) {
 		currentDepth = nodes[i].depth;
 
 		//x is based on how many nodes are in this level
@@ -183,6 +183,11 @@ function determineNodeLocations(){
 		for( var j = 0; j < nodes.length-1; j++){
 			if(nodes[j].depth == currentDepth){
 				numNodes += 1;
+			}
+			//Because the nodes are in order, we can cut this early for efficiency"
+			if(nodes[j].depth > currentDepth){
+				j = nodes.length;
+				break;
 			}
 		}
 		sectorSpace[currentDepth] = (cWidth-nodeSize)/(numNodes+1);
@@ -196,6 +201,11 @@ function determineNodeLocations(){
 				loc.x = nodeNumber*sectorSpace[currentDepth]
 				locations[nodes[j].id] = loc;	
 				nodeNumber++;
+			}
+			//Because the nodes are in order, we can cut this early for efficiency"
+			if(nodes[j].depth > currentDepth){
+				j = nodes.length;
+				break;
 			}
 		}
 

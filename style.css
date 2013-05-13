@@ -105,5 +105,8 @@ canvas{
 
 	border-radius: 1em;
 	border: dashed black;
-
+}
+.warn{
+	color: #FFFFFF;
+	font-weight: bold;
 }
