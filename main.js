@@ -118,10 +118,14 @@ function processGET(xmlHttp,depth,baseURL,parentNode){
 
 //Helper function to grab URL
 function httpGet(theUrl,depth,parentNode){
+	//Show loaders
+    document.getElementById('loadImg').style.visibility='visible';
+    
     var xmlHttp = null;
     xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function(){processGET(xmlHttp,depth,decodeURIComponent(theUrl),parentNode)};
-    xmlHttp.open( "GET", 'proxy.php?url='+theUrl, false );
+    //Change false to true for a cool visual
+    xmlHttp.open( "GET", 'proxy.php?url='+theUrl, true );
     xmlHttp.send( null );
 }
 
@@ -129,6 +133,10 @@ function httpGet(theUrl,depth,parentNode){
 function aggregate(){
 	//Grab the text of the input:
 	var rootUrl = document.getElementById('urlEnter').value;
+
+	//Show loaders
+    document.getElementById('loadImg').style.visibility='visible';
+    
 
 	//Check for http:// (most people will likely place www.)
 	if(rootUrl.indexOf("http://")==-1 && rootUrl.indexOf("https://")==-1){
@@ -143,7 +151,9 @@ function aggregate(){
 	 * Draw links to each from root
 	 * Update or create a radial tree graph
 	 */
-	 httpGet(encodeURIComponent(rootUrl),maxDepth,null);	
+	
+	httpGet(encodeURIComponent(rootUrl),maxDepth,null);
+	
 }
 
 //Simple tuple object to make things easier
@@ -242,23 +252,32 @@ function drawGraph(){
 			context.closePath();
 			context.stroke();
 
-			//Draw the line to its parent
-			context.beginPath();
-			context.moveTo(x, y);
-			var px = locations[nodes[i].parent.id].x;
-			var py = locations[nodes[i].parent.id].y;
-			context.lineTo(px, py);
-			context.closePath();
+			context.fillStyle = '000';
+			context.font = 'bold 50% sans-serif';
+			context.fillText(nodes[i].url,x,y);
 			context.stroke();
+
+			//Draw the line to its parent
+			if(nodes[i].parent!= null){
+				context.beginPath();
+				context.moveTo(x, y);
+
+				var px = locations[nodes[i].parent.id].x;
+				var py = locations[nodes[i].parent.id].y;
+		
+				context.lineTo(px, py);
+				context.closePath();
+				context.stroke();
+			}
 		}else{
-			console.log(nodes[i]);
+			//console.log(nodes[i]);
 		}
 	};
 
 	context.lineWidth = 5;
     context.strokeStyle = '#003300';
 
-
+	document.getElementById('loadImg').style.visibility='hidden';
 
 
 }
