@@ -186,7 +186,7 @@ function determineNodeLocations(){
 			}
 		}
 		sectorSpace[currentDepth] = (cWidth-nodeSize)/(numNodes+1);
-		nodes
+		
 		//hop through the nodes in the same order as we counted them
 		var nodeNumber = 1;
 		for( var j = 0; j < nodes.length-1; j++){
@@ -194,7 +194,7 @@ function determineNodeLocations(){
 				loc = new tuple();
 				loc.y = startY + nodes[j].depth * levelSpace;
 				loc.x = nodeNumber*sectorSpace[currentDepth]
-				locations[nodes[j].url] = loc;	
+				locations[nodes[j].id] = loc;	
 				nodeNumber++;
 			}
 		}
@@ -223,9 +223,9 @@ function drawGraph(){
 
 	//For each node place a circle down and draw a path to its parent
 	for (var i = nodes.length - 1; i >= 0; i--) {
-		if(typeof (locations[nodes[i].url]) != 'undefined'){
-			var x =locations[nodes[i].url].x
-			var y = locations[nodes[i].url].y
+		if(typeof (locations[nodes[i].id]) != 'undefined'){
+			var x =locations[nodes[i].id].x
+			var y = locations[nodes[i].id].y
 			context.arc(x, y, nodeSize, 0, 2 * Math.PI, false);	
 			context.stroke();
 		}else{

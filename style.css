@@ -44,20 +44,19 @@ body{
 	width: 100%;
 }
 #footer{
-	font-size: 50%;
+	font-size: 70%;
 	text-align: center;
 
-	clear: both;
-	position: absolute;
-	bottom: 0;
+	float: left;
+	width: 20%;
+
 	margin-top: 3em;
-	margin-right: 33%;
-	margin-left: 33%;
 	margin-bottom: 1em;
+	border: thin solid black;
 
 	background-color: #39E639;
 	border-radius: 1em;
-	box-shadow: 0em 0.2em 0.3em #00CC00;
+	box-shadow: 0.0em 0.5em 0.3em #000000;
 	padding-right: 2em;
 	padding-left: 2em;
 	padding-top: 1em;
