@@ -284,7 +284,14 @@ function drawGraph(){
 
 //Bind the event for choosing a url
 var goButton = document.getElementById('Go');
+var inputBox = document.getElementById('urlEnter');
 goButton.onclick = aggregate;
+inputBox.onkeydown = function(e){
+	if(e.keyCode==13){
+		aggregate();
+	}
+}
+
 
 //Bind the event for updating the graph
 window.addEventListener("updateGraph", drawGraph, false); //false to get it in bubble not capture. (https://developer.mozilla.org/en-US/docs/DOM/EventTarget.addEventListener)
