@@ -226,7 +226,19 @@ function drawGraph(){
 		if(typeof (locations[nodes[i].id]) != 'undefined'){
 			var x =locations[nodes[i].id].x
 			var y = locations[nodes[i].id].y
+			//Draw the node itself
+			context.beginPath();
 			context.arc(x, y, nodeSize, 0, 2 * Math.PI, false);	
+			context.closePath();
+			context.stroke();
+
+			//Draw the line to its parent
+			context.beginPath();
+			context.moveTo(x, y);
+			var px = locations[nodes[i].parent.id].x;
+			var py = locations[nodes[i].parent.id].y;
+			context.lineTo(px, py);
+			context.closePath();
 			context.stroke();
 		}else{
 			console.log(nodes[i]);
