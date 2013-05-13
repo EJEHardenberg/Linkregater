@@ -152,7 +152,7 @@ function aggregate(){
 	 * Update or create a radial tree graph
 	 */
 	
-	httpGet(encodeURIComponent(rootUrl),maxDepth,null);
+	httpGet(encodeURIComponent(rootUrl),parseInt(maxDepth),null);
 	
 }
 
@@ -176,7 +176,7 @@ function determineNodeLocations(){
 	
 
 	//Determine space between levels Levels:
-	var levelSpace = (cHeight-100)/(maxDepth +1);
+	var levelSpace = (cHeight)/(maxDepth +1);
 	var startY = 10; //Buffer space from the top
 
 	//Space between horizontal
@@ -290,6 +290,11 @@ inputBox.onkeydown = function(e){
 	if(e.keyCode==13){
 		aggregate();
 	}
+}
+
+var depthSelever = document.getElementById('depth');
+depthSelever.onchange = function(){
+	maxDepth = parseInt(document.getElementById('depth').value);	
 }
 
 
