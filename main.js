@@ -163,7 +163,7 @@ function determineNodeLocations(){
 			return 0;
 		}
 	});
-	console.log(nodes);
+	
 
 	//Determine space between levels Levels:
 	var levelSpace = (cHeight-100)/(maxDepth +1);
@@ -178,23 +178,26 @@ function determineNodeLocations(){
 	for (var i = nodes.length - 1; i >= 0; i--) {
 		currentDepth = nodes[i].depth;
 
-		//x is based on how many children each node has. as well as the sector designated for that node.
-		var numChildren = 0;
-		for( var j = nodes.length-1; j >= 0; j--){
+		//x is based on how many nodes are in this level
+		var numNodes = 0;
+		for( var j = 0; j < nodes.length-1; j++){
 			if(nodes[j].depth == currentDepth){
-				numChildren += nodes[j].anchors.length; //not all anchors valid so this could change to just 1
+				numNodes += 1;
 			}
 		}
-		sectorSpace[currentDepth] = (cWidth-nodeSize)/(numChildren+1);
-		
-
-		for (var c = 0; c < numChildren-1; c++) {
-			//Create the location for the child node
-			loc = new tuple();
-			loc.y = startY + nodes[i].depth * levelSpace;
-			loc.x = c*sectorSpace[currentDepth]
-			locations[nodes[i].url] = loc;	
-		};
+		sectorSpace[currentDepth] = (cWidth-nodeSize)/(numNodes+1);
+		nodes
+		//hop through the nodes in the same order as we counted them
+		var nodeNumber = 1;
+		for( var j = 0; j < nodes.length-1; j++){
+			if(nodes[j].depth == currentDepth){
+				loc = new tuple();
+				loc.y = startY + nodes[j].depth * levelSpace;
+				loc.x = nodeNumber*sectorSpace[currentDepth]
+				locations[nodes[j].url] = loc;	
+				nodeNumber++;
+			}
+		}
 
 	};
 
@@ -204,7 +207,6 @@ function determineNodeLocations(){
 }
 
 function drawGraph(){
-	console.log("draw graph");	
 	//Determine how level's we'll need based on the maximum depth and the size of the canvas, we'll give ourselves some buffer space as well
 	var radiusSize = (cWidth-100)/maxDepth;
 	nodeSize = (cWidth/nodes.length)/maxDepth;
@@ -221,11 +223,14 @@ function drawGraph(){
 
 	//For each node place a circle down and draw a path to its parent
 	for (var i = nodes.length - 1; i >= 0; i--) {
-		var x =locations[nodes[i].url].x
-		var y = locations[nodes[i].url].y
-		console.log(nodes[i].url +  ' x: ' + x + ' y: ' + y);
-		context.arc(x, y, nodeSize, 0, 2 * Math.PI, false);	
-		context.stroke();
+		if(typeof (locations[nodes[i].url]) != 'undefined'){
+			var x =locations[nodes[i].url].x
+			var y = locations[nodes[i].url].y
+			context.arc(x, y, nodeSize, 0, 2 * Math.PI, false);	
+			context.stroke();
+		}else{
+			console.log(nodes[i]);
+		}
 	};
 
 	context.lineWidth = 5;
